@@ -1,0 +1,4 @@
+__pycache__/
+*.py[cod]
+*$py.class
+screening_task/screening_task/lookup/.mypy_cache/
