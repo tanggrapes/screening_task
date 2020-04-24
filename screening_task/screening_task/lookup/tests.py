@@ -4,7 +4,7 @@ from django.urls import reverse
 from screening_task.lookup.models import *
 from django.test import client
 
-url = reverse("lookups-url")
+url = "/api/lookups/"
 
 
 @pytest.fixture
@@ -27,7 +27,7 @@ def test_get_lookups(db_setup, client):
 @pytest.mark.django_db
 def test_delete_lookups(db_setup, client):
     response = client.get(url)
-    response = client.delete("{}{}/".format(url, response.json()[0].get("id")))
+    response = client.delete(f'{url}{response.json()[0].get("id")}/')
     assert response.status_code == 204
 
 
@@ -54,15 +54,3 @@ def test_add_lookups(client):
         "application/json",
     )
     assert response.status_code == 201
-
-
-@pytest.mark.django_db
-def test_lookups_search(db_setup, client):
-    response = client.get("{}?search=Seven".format(url))
-    assert len(response.json()) == 1
-    response = client.get("{}?search=The Seven".format(url))
-    assert len(response.json()) == 1
-    response = client.get("{}?search=Deadly".format(url))
-    assert len(response.json()) == 1
-    response = client.get("{}?search=anime".format(url))
-    assert len(response.json()) == 0

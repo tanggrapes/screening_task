@@ -15,12 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.conf.urls import url
+from django.conf.urls import url, include
 from screening_task.lookup.views import *
+from rest_framework import routers
 
+router = routers.DefaultRouter()
+router.register(r"api/lookups", LookUpView, basename='lookups"')
+router.register(r"api/values", ValueView, basename='values"')
 urlpatterns = [
-    url(r"^api/values/$", ValueListView.as_view()),
-    url(r"^api/values/(?P<pk>\d+)/$", ValueView.as_view()),
-    url(r"^api/lookups/$", LookUpListView.as_view(), name="lookups-url"),
-    url(r"^api/lookups/(?P<pk>\d+)/$", LookUpView.as_view()),
+    url(r"^", include(router.urls)),
+    # url(r"^api/values/$", ValueListView.as_view()),
+    # url(r"^api/values/(?P<pk>\d+)/$", ValueView.as_view()),
+    # url(r"^api/lookups/$", LookUpListView.as_view(), name="lookups-url"),
+    # url(r"^api/lookups/(?P<pk>\d+)/$", LookUpView.as_view()),
 ]

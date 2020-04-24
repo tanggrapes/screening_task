@@ -34,6 +34,3 @@ class LookUpSerializer(serializers.ModelSerializer):
             lookup.definition = lookup_value.get("definition", lookup.definition)
             lookup.save()
         return instance
-
-
-from django.contrib import admin
